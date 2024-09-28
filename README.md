@@ -1,4 +1,4 @@
-This goal of this program is to detect any human that enters the frame and then matches their face with any known users stored in the database.
+This is a personal project I started to detect any human that enters the frame and then matches their face with any known users stored in the database.
 
 Any unknown faces will be highlighted red, whereas, known faces will be highlighted green.
 
@@ -12,8 +12,10 @@ To get this working for yourself:
 
 4. Update the block of code starting at line 34 in the initKnownFaces func. Right now they are set to user1 and user2.
 
-5. Enjoy!
+5. Run the main file and enjoy!
 
-This is a personal project I've created just to practice logic taught to me from Uni, don't be surprised if it isn't the best working program.
+Any questions, please feel free to contact me on any platform.
+
+I've also included a generateImages file which has a block of code allowing you to take photos using your webcam. "Esc" closes the program and "s" takes a photo and stores it in a folder it creates.
 
 
