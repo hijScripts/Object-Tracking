@@ -18,4 +18,6 @@ Any questions, please feel free to contact me on any platform.
 
 I've also included a generateImages file which has a block of code allowing you to take photos using your webcam. "Esc" closes the program and "s" takes a photo and stores it in a folder it creates.
 
+[Created By: github.com/hijscripts]
+
 
