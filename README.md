@@ -12,7 +12,7 @@ To get this working for yourself:
 
 4. Update the block of code starting at line 34 in the initKnownFaces func. Right now they are set to user1 and user2.
 
-5. Run the main file and enjoy!
+5. Run the main file and enjoy! ("Esc" key closes the window)
 
 Any questions, please feel free to contact me on any platform.
 
