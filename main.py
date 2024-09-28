@@ -3,7 +3,6 @@ import cv2
 import face_recognition
 import os
 
-from gtts import gTTS
 from ultralytics import YOLO
 
 # Weights for detecting objects
