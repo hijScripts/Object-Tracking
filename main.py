@@ -7,8 +7,8 @@ from gtts import gTTS
 from ultralytics import YOLO
 
 # Weights for detecting objects
-objectModel = YOLO("yolov10n.pt") # Replace w custom v10 trained model for humans
-faceModel = YOLO("yolov8n-face.pt") # Replace w custom v9 trained model for faces
+objectModel = YOLO("yolov10n.pt")
+faceModel = YOLO("yolov8n-face.pt") # need to update to v10 trained w faces
 
 # Dict of known faces to compare against
 knownFaces = {}
