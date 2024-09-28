@@ -16,4 +16,6 @@ To get this working for yourself:
 
 This is a personal project I've created just to practice logic taught to me from Uni, don't be surprised if it isn't the best working program.
 
+[Created By: github.com/hijscripts]
+
 
