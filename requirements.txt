@@ -5,5 +5,4 @@
 cvzone
 opencv-python
 face-recognition
-gTTS
 ultralytics

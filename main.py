@@ -29,13 +29,14 @@ def initKnownFaces():
         encodings = face_recognition.face_encodings(image)
         
         if encodings:
+
             # Extract the person's name from the filename (e.g., "harry.jpg" -> "harry")
             name = os.path.splitext(image_file)[0]
 
-            if "harry" in name.lower():
-                name = "harry"
-            elif "jess" in name.lower():
-                name = "baddie"
+            if "user1" in name.lower():
+                name = "user1"
+            elif "user2" in name.lower():
+                name = "user2"
 
             # Store the encoding and the name in the dictionary
             knownFaces[name] = encodings[0]
@@ -76,12 +77,6 @@ def detectFace(image):
                 if foundFace:
                     cv2.rectangle(image, (x1, y1), (x2, y2), (0, 128, 0), 3)
                     cvzone.putTextRect(image, f"{faceName} | {confidence:.2f}% Confident", [x1 + 8, y1 - 12])
-
-                    #if faceName == "harry":
-                        # Say some text
-                        #os.system("handsome-devil.mp3")  # For Windows
-                    #elif faceName == "jess":
-                        #os.system("baddie.mp3")
                 else:
                     cv2.rectangle(image, (x1, y1), (x2, y2), (50, 50, 255), 3)
                     cvzone.putTextRect(image, f"face | {confidence:.2f}% Confident", [x1 + 8, y1 - 12])
