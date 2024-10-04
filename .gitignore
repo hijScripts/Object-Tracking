@@ -3,3 +3,7 @@ allowedUsers/
 
 #outputImages
 outputImages/
+
+yolov10n.pt
+
+yolov8n-face.pt
