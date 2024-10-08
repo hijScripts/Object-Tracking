@@ -150,4 +150,5 @@ class ObjectDetectionPipeline:
                 break
         
 if __name__ == "__main__":
-    run()
+    pipeline = ObjectDetectionPipeline()
+    pipeline.run()
