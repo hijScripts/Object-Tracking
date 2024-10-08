@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 import threading
 
-
 from typing import Tuple
 
 from ultralytics import YOLO
@@ -90,6 +89,9 @@ class ObjectDetectionPipeline:
         
         :param frame: The frame read from the live webcam footage
         :type frame: np.ndarray
+
+        :return: The processed frame
+        :rtype: np.ndarray
         
         :raises ExceptionType: condition
         """
@@ -152,17 +154,21 @@ class ObjectDetectionPipeline:
         cv2.DestroyAllWindows()
 
     def run(self):
-
+        """
+        Runs the Object Detection Pipeline
+        """
         # Start the frame capture thread
         captureThread = threading.Thread(target=self.captureFrame)
         captureThread.start()
 
         while not self.stopThread:
 
+            # Checks if frame is not non-type and if we are skipping frame
             if self.frameCount % self.frameSkip == 0 and self.frame is not None:
                 processedFrame = self.processFrame(self.frame)
                 cv2.imshow("frame", processedFrame)
 
+            # Checking to see if user enters Esc key
             keyPress = cv2.waitKey(1)
             if keyPress == 27:
                 print("Esc key pressed...")
