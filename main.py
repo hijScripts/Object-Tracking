@@ -22,9 +22,6 @@ def getParams(object: Boxes) -> Tuple[str, float]:
     :rtype: Tuple[str, float]
     
     :raises ExceptionType: condition
-    
-    >>> name, confidence = getParams(object: Boxes) -> Tuple[str, float]
-    name = person, confidence = 87.234324234234%
     """
 
     # Getting num found by yolo and matching to associated name
@@ -36,6 +33,25 @@ def getParams(object: Boxes) -> Tuple[str, float]:
     confidence *= 100
 
     return className, confidence
+
+def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
+    """
+    Purpose:
+    
+    Desc:
+    
+    :param object: an object found by YOLO
+    :type object: Boxes
+    
+    :return: Returns the top-left and bottom-right coords of object
+    :rtype: Tuple[int, int, int, int]
+    
+    :raises ExceptionType: condition
+    """
+    x1, y1, x2, y2 = map(object.xyxy[0], int)
+
+    return x1, y1, x2, y2
+
 
 def main():
 
@@ -50,9 +66,6 @@ def main():
         if not bool:
             print("Failed to capture frame... Closing now.")
             break
-
-        # Scanning frame for people
-        detectPerson(image)
 
         cv2.imshow("frame", image)
         keyPress = cv2.waitKey(1)
