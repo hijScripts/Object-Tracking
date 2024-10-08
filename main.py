@@ -94,8 +94,18 @@ class ObjectDetectionPipeline:
         :raises ExceptionType: condition
         """
 
-        # Analysing frame for objects then iterating over them
-        objects = self.objectModel(frame)
+        # Get original frame dimensions
+        originalHeight, originalWidth = frame.shape[:2]
+
+        # Resize frame to reduce processing time
+        resizedFrame = cv2.resize(frame, (640, 480))
+
+        # Calculate scaling factors between original frame and resized frame
+        scaleX = originalWidth / 640
+        scaleY = originalHeight / 480
+
+        # Detect objects in frame and then interate over them
+        objects = self.objectModel(resizedFrame)
         for object in objects:
 
             boxes = object.boxes
@@ -104,6 +114,12 @@ class ObjectDetectionPipeline:
 
                 # Getting the top-left and bottom-right coords
                 x1, y1, x2, y2 = self.getCoords(box)
+
+                # Scale the coordinates back to the original frame size
+                x1 = x1 * scaleX
+                y1 = y1 * scaleY
+                x2 = x2 * scaleX
+                y2 = y2 * scaleY
 
                 # Outlining the object
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
