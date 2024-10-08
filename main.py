@@ -4,7 +4,7 @@ import numpy as np
 from typing import Tuple
 
 from ultralytics import YOLO
-from ultralytics.yolo.engine.results import Boxes
+from ultralytics import Boxes
 
 # Weights for detecting objects
 objectModel = YOLO("yolo11n.pt")
@@ -51,6 +51,26 @@ def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
     x1, y1, x2, y2 = map(int, object.xyxy[0])
 
     return x1, y1, x2, y2
+
+def analyseFrame(frame: np.ndarray) -> None:
+
+    # Analysing frame for objects then iterating over them
+    objects = objectModel(frame)
+    for object in objects:
+
+        # Getting the top-left and bottom-right coords
+        x1, y1, x2, y2 = getCoords(object)
+
+        # Outlining the object
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
+
+        # Getting name & confidence of object
+        name, confidence = getParams(object)
+
+        # Displaying captured values onto frame
+        cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.")
+
+
 
 def cleanup(webcam: cv2.VideoCapture) -> None:
     webcam.release()
