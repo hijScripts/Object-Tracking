@@ -67,7 +67,7 @@ class ObjectDetectionPipeline:
 
         return x1, y1, x2, y2
 
-    def captureFrame(self) -> np.ndarray:
+    def captureFrame(self):
         frameCaptured, frame = self.webcam.read()
 
         if not frameCaptured:
@@ -75,7 +75,7 @@ class ObjectDetectionPipeline:
             self.cleanup(self.webcam)
             self.stopThread = True
         
-        return frame
+        self.frame = frame
 
     def processFrame(self) -> None:
         """
@@ -127,26 +127,16 @@ class ObjectDetectionPipeline:
     def run(self):
 
         # Capturing live webcam video
-        while True:
+        while not self.stopThread:
 
-            # Getting a frame from footage
-            bool, frame = cap.read()
+            self.captureFrame()
 
-            if not bool:
-                print("Failed to capture frame... Closing now.")
-                cleanup(cap)
-                break
-            
-            # Processing frame
-            processFrame(frame)
+            self.processFrame()
 
-            # Displaying the frame and exiting loop if 'Esc' is pressed.
-            cv2.imshow("frame", frame)
-            keyPress = cv2.waitKey(1)
-
+            keyPress = cv2.waitKey(10)
             if keyPress == 27:
-                print("Esc key pressed... Closing now.")
-                cleanup(cap)
+                print("Esc key pressed...")
+                self.cleanup(self.webcam)
                 break
         
 if __name__ == "__main__":
