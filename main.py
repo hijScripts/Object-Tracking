@@ -20,7 +20,7 @@ class ObjectDetectionPipeline:
         self.frameCount = 0
         self.stopThread = False
 
-    def getParams(box) -> Tuple[str, float]:
+    def getParams(self, box) -> Tuple[str, float]:
         """
         Gets the name and confidence value of an object.
         
@@ -46,7 +46,7 @@ class ObjectDetectionPipeline:
 
         return className, confidence
 
-    def getCoords(box) -> Tuple[int, int, int, int]:
+    def getCoords(self, box) -> Tuple[int, int, int, int]:
         """
         Gets the top-left and bottom-right coordinates of an
         object.
@@ -66,7 +66,7 @@ class ObjectDetectionPipeline:
 
         return x1, y1, x2, y2
 
-    def processFrame(frame: np.ndarray) -> None:
+    def processFrame(self, frame: np.ndarray) -> None:
         """
         Analyses the frame for objects.
         
@@ -87,7 +87,7 @@ class ObjectDetectionPipeline:
             for box in boxes:
 
                 # Getting the top-left and bottom-right coords
-                x1, y1, x2, y2 = getCoords(box)
+                x1, y1, x2, y2 = self.getCoords(box)
 
                 # Outlining the object
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
@@ -98,7 +98,7 @@ class ObjectDetectionPipeline:
                 # Displaying captured values onto frame
                 cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
 
-    def cleanup(webcam: cv2.VideoCapture) -> None:
+    def cleanup(self, webcam: cv2.VideoCapture) -> None:
         """
         Cleans up the program upon completion or exit
         
@@ -113,7 +113,7 @@ class ObjectDetectionPipeline:
         webcam.release()
         cv2.DestroyAllWindows()
 
-    def run():
+    def run(self):
 
         # Capturing live webcam video
         while True:
