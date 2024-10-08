@@ -99,7 +99,7 @@ class ObjectDetectionPipeline:
                 # Displaying captured values onto frame
                 cvzone.putTextRect(self.frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
 
-    def cleanup(self, webcam: cv2.VideoCapture) -> None:
+    def cleanup(self) -> None:
         """
         Cleans up the program upon completion or exit
         
@@ -111,7 +111,7 @@ class ObjectDetectionPipeline:
         
         :raises ExceptionType: condition
         """
-        webcam.release()
+        self.webcam.release()
         cv2.DestroyAllWindows()
 
     def run(self):
