@@ -12,9 +12,9 @@ from ultralytics import YOLO
 objectModel = YOLO("yolo11n.pt")
 
 class ObjectDetectionPipeline:
-    def __init__(self, modelPath="yolo11n.pt", webcam=0, confidenceThreshold=0.5, skipFrame=2):
+    def __init__(self, modelPath="yolo11n.pt", webcamNum=0, confidenceThreshold=0.5, skipFrame=2):
         self.objectModel = modelPath
-        self.webcam = webcam
+        self.webcam = cv2.VideoCapture(webcamNum)
         self.confidenceThreshold = confidenceThreshold
         self.skipFrame = skipFrame
         self.frameCount = 0
