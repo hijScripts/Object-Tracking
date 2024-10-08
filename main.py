@@ -127,6 +127,10 @@ class ObjectDetectionPipeline:
                 # Getting name & confidence of object
                 name, confidence = self.getParams(box)
 
+                # Skip if confidence is below threshold
+                if confidence < self.confidenceThreshold:
+                   continue
+
                 # Displaying captured values onto frame
                 cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
         
