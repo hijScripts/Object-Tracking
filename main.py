@@ -159,8 +159,9 @@ class ObjectDetectionPipeline:
 
         while not self.stopThread:
 
-            processedFrame = self.processFrame(self.frame)
-            cv2.imshow("frame", processedFrame)
+            if self.frame is not None:
+                processedFrame = self.processFrame(self.frame)
+                cv2.imshow("frame", processedFrame)
 
             keyPress = cv2.waitKey(1)
             if keyPress == 27:
