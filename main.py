@@ -19,6 +19,7 @@ class ObjectDetectionPipeline:
         self.skipFrame = skipFrame
         self.frameCount = 0
         self.stopThread = False
+        self.frame: np.ndarray = None
 
     def getParams(self, box) -> Tuple[str, float]:
         """
@@ -66,7 +67,7 @@ class ObjectDetectionPipeline:
 
         return x1, y1, x2, y2
 
-    def processFrame(self, frame: np.ndarray) -> None:
+    def processFrame(self) -> None:
         """
         Analyses the frame for objects.
         
@@ -79,7 +80,7 @@ class ObjectDetectionPipeline:
         :raises ExceptionType: condition
         """
         # Analysing frame for objects then iterating over them
-        objects = objectModel(frame)
+        objects = objectModel(self.frame)
         for object in objects:
 
             boxes = object.boxes
@@ -90,13 +91,13 @@ class ObjectDetectionPipeline:
                 x1, y1, x2, y2 = self.getCoords(box)
 
                 # Outlining the object
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
+                cv2.rectangle(self.frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
 
                 # Getting name & confidence of object
-                name, confidence = getParams(box)
+                name, confidence = self.getParams(box)
 
                 # Displaying captured values onto frame
-                cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
+                cvzone.putTextRect(self.frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
 
     def cleanup(self, webcam: cv2.VideoCapture) -> None:
         """
