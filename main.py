@@ -159,7 +159,7 @@ class ObjectDetectionPipeline:
 
         while not self.stopThread:
 
-            if self.frame is not None:
+            if self.frameCount % self.frameSkip == 0 and self.frame is not None:
                 processedFrame = self.processFrame(self.frame)
                 cv2.imshow("frame", processedFrame)
 
