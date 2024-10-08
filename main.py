@@ -124,9 +124,6 @@ def main():
             print("Esc key pressed... Closing now.")
             cleanup(cap)
             break
-
-    cap.release()
-    cv2.destroyAllWindows()
         
 if __name__ == "__main__":
     main()
