@@ -7,3 +7,5 @@ outputImages/
 yolov10n.pt
 
 yolov8n-face.pt
+
+venv/
