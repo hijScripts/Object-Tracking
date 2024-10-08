@@ -11,9 +11,10 @@ objectModel = YOLO("yolo11n.pt")
 
 def getParams(object: Boxes) -> Tuple[str, float]:
     """
-    Purpose:
+    Gets the name and confidence value of an object.
     
-    Desc:
+    This function gets the name of a class and the
+    confidence value of the class.
     
     :param object: an object found by YOLO
     :type object: Boxes
@@ -36,9 +37,11 @@ def getParams(object: Boxes) -> Tuple[str, float]:
 
 def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
     """
-    Purpose:
+    Gets the top-left and bottom-right coordinates of an
+    object.
     
-    Desc:
+    This function gets the top-left and bottom-right coords as
+    (x1, y1) and (x2, y2) respectively.
     
     :param object: an object found by YOLO
     :type object: Boxes
@@ -53,7 +56,17 @@ def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
     return x1, y1, x2, y2
 
 def analyseFrame(frame: np.ndarray) -> None:
-
+    """
+    Analyses the frame for objects.
+    
+    This function analyses the frame for objects and displays
+    relevant information.
+    
+    :param frame: The frame read from the live webcam footage
+    :type frame: np.ndarray
+    
+    :raises ExceptionType: condition
+    """
     # Analysing frame for objects then iterating over them
     objects = objectModel(frame)
     for object in objects:
@@ -70,9 +83,18 @@ def analyseFrame(frame: np.ndarray) -> None:
         # Displaying captured values onto frame
         cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.")
 
-
-
 def cleanup(webcam: cv2.VideoCapture) -> None:
+    """
+    Cleans up the program upon completion or exit
+    
+    This function releases the webcam and destroys all associated
+    windows when the program has finished executing.
+    
+    :param webcam: The users webcam
+    :type webcam: cv2. VideoCapture
+    
+    :raises ExceptionType: condition
+    """
     webcam.release()
     cv2.DestroyAllWindows()
 
