@@ -4,12 +4,11 @@ import numpy as np
 from typing import Tuple
 
 from ultralytics import YOLO
-from ultralytics import Boxes
 
 # Weights for detecting objects
 objectModel = YOLO("yolo11n.pt")
 
-def getParams(object: Boxes) -> Tuple[str, float]:
+def getParams(box) -> Tuple[str, float]:
     """
     Gets the name and confidence value of an object.
     
@@ -26,16 +25,16 @@ def getParams(object: Boxes) -> Tuple[str, float]:
     """
 
     # Getting num found by yolo and matching to associated name
-    classNum = int(object.cls[0])
+    classNum = int(box.cls[0])
     className = objectModel.names[classNum]
 
     # Getting confidence value and converting to %
-    confidence = float(object.conf[0])
+    confidence = float(box.conf[0])
     confidence *= 100
 
     return className, confidence
 
-def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
+def getCoords(box) -> Tuple[int, int, int, int]:
     """
     Gets the top-left and bottom-right coordinates of an
     object.
@@ -51,11 +50,11 @@ def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
     
     :raises ExceptionType: condition
     """
-    x1, y1, x2, y2 = map(int, object.xyxy[0])
+    x1, y1, x2, y2 = map(int, box.xyxy[0])
 
     return x1, y1, x2, y2
 
-def analyseFrame(frame: np.ndarray) -> None:
+def processFrame(frame: np.ndarray) -> None:
     """
     Analyses the frame for objects.
     
@@ -71,17 +70,21 @@ def analyseFrame(frame: np.ndarray) -> None:
     objects = objectModel(frame)
     for object in objects:
 
-        # Getting the top-left and bottom-right coords
-        x1, y1, x2, y2 = getCoords(object)
+        boxes = object.boxes
 
-        # Outlining the object
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
+        for box in boxes:
 
-        # Getting name & confidence of object
-        name, confidence = getParams(object)
+            # Getting the top-left and bottom-right coords
+            x1, y1, x2, y2 = getCoords(box)
 
-        # Displaying captured values onto frame
-        cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.")
+            # Outlining the object
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
+
+            # Getting name & confidence of object
+            name, confidence = getParams(box)
+
+            # Displaying captured values onto frame
+            cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.")
 
 def cleanup(webcam: cv2.VideoCapture) -> None:
     """
@@ -113,8 +116,8 @@ def main():
             cleanup(cap)
             break
         
-        # Analysing frame
-        analyseFrame(frame)
+        # Processing frame
+        processFrame(frame)
 
         # Displaying the frame and exiting loop if 'Esc' is pressed.
         cv2.imshow("frame", frame)
