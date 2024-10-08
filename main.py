@@ -9,11 +9,11 @@ from typing import Tuple
 from ultralytics import YOLO
 
 class ObjectDetectionPipeline:
-    def __init__(self, modelPath="yolo11n.pt", webcamNum=0, confidenceThreshold=0.5, skipFrame=2):
+    def __init__(self, modelPath="yolo11n.pt", webcamNum=0, confidenceThreshold=0.5, frameSkip=2):
         self.objectModel = YOLO(modelPath)
         self.webcam: cv2.VideoCapture = cv2.VideoCapture(webcamNum)
         self.confidenceThreshold: float = confidenceThreshold
-        self.skipFrame: int = skipFrame
+        self.frameSkip: int = frameSkip
         self.frameCount: int = 0
         self.stopThread: bool = False
         self.frame: np.ndarray = None
