@@ -8,17 +8,14 @@ from typing import Tuple
 
 from ultralytics import YOLO
 
-# Weights for detecting objects
-objectModel = YOLO("yolo11n.pt")
-
 class ObjectDetectionPipeline:
     def __init__(self, modelPath="yolo11n.pt", webcamNum=0, confidenceThreshold=0.5, skipFrame=2):
-        self.objectModel = modelPath
-        self.webcam = cv2.VideoCapture(webcamNum)
-        self.confidenceThreshold = confidenceThreshold
-        self.skipFrame = skipFrame
-        self.frameCount = 0
-        self.stopThread = False
+        self.objectModel = YOLO(modelPath)
+        self.webcam: cv2.VideoCapture = cv2.VideoCapture(webcamNum)
+        self.confidenceThreshold: float = confidenceThreshold
+        self.skipFrame: int = skipFrame
+        self.frameCount: int = 0
+        self.stopThread: bool = False
         self.frame: np.ndarray = None
 
     def getParams(self, box) -> Tuple[str, float]:
@@ -68,16 +65,23 @@ class ObjectDetectionPipeline:
         return x1, y1, x2, y2
 
     def captureFrame(self):
-        frameCaptured, frame = self.webcam.read()
-
-        if not frameCaptured:
-            print("Failed to capture frame...")
-            self.cleanup(self.webcam)
-            self.stopThread = True
+        """
+        Constantly captures new frames.
         
-        self.frame = frame
+        This function captures frames from webcam until
+        self.stopThread is equal to false.
+        
+        :raises ExceptionType: condition
+        """
+        while not self.stopThread:
+            frameCaptured, self.frame = self.webcam.read()
 
-    def processFrame(self) -> None:
+            if not frameCaptured:
+                print("Failed to capture frame...")
+                self.cleanup(self.webcam)
+                self.stopThread = True
+
+    def processFrame(self, frame) -> np.ndarray:
         """
         Analyses the frame for objects.
         
@@ -89,8 +93,9 @@ class ObjectDetectionPipeline:
         
         :raises ExceptionType: condition
         """
+
         # Analysing frame for objects then iterating over them
-        objects = objectModel(self.captureFrame())
+        objects = self.objectModel(frame)
         for object in objects:
 
             boxes = object.boxes
@@ -101,13 +106,15 @@ class ObjectDetectionPipeline:
                 x1, y1, x2, y2 = self.getCoords(box)
 
                 # Outlining the object
-                cv2.rectangle(self.frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
 
                 # Getting name & confidence of object
                 name, confidence = self.getParams(box)
 
                 # Displaying captured values onto frame
-                cvzone.putTextRect(self.frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
+                cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
+        
+        return frame
 
     def cleanup(self) -> None:
         """
@@ -126,17 +133,22 @@ class ObjectDetectionPipeline:
 
     def run(self):
 
-        # Capturing live webcam video
+        # Start the frame capture thread
+        captureThread = threading.Thread(target=self.captureFrame())
+        captureThread.start()
+
         while not self.stopThread:
 
-            self.processFrame()
+            processedFrame = self.processFrame(self.frame)
+            cv2.imshow("frame", processedFrame)
 
-            cv2.imshow("frame", self.frame)
-            keyPress = cv2.waitKey(10)
+            keyPress = cv2.waitKey(1)
             if keyPress == 27:
                 print("Esc key pressed...")
+                self.stopThread = True
                 self.cleanup(self.webcam)
-                break
+        
+        captureThread.join()
         
 if __name__ == "__main__":
     pipeline = ObjectDetectionPipeline()
