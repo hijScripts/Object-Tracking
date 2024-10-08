@@ -175,6 +175,7 @@ class ObjectDetectionPipeline:
                 self.stopThread = True
                 self.cleanup(self.webcam)
         
+        # Waits for captureThread to finish executing then joins back onto main thread.
         captureThread.join()
         
 if __name__ == "__main__":
