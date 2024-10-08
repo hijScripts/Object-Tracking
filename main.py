@@ -84,7 +84,7 @@ def processFrame(frame: np.ndarray) -> None:
             name, confidence = getParams(box)
 
             # Displaying captured values onto frame
-            cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.")
+            cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
 
 def cleanup(webcam: cv2.VideoCapture) -> None:
     """
@@ -104,7 +104,7 @@ def cleanup(webcam: cv2.VideoCapture) -> None:
 def main():
 
     # Capturing live webcam video
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     while True:
 
