@@ -129,10 +129,9 @@ class ObjectDetectionPipeline:
         # Capturing live webcam video
         while not self.stopThread:
 
-            self.captureFrame()
-
             self.processFrame()
 
+            cv2.imshow("frame", self.frame)
             keyPress = cv2.waitKey(10)
             if keyPress == 27:
                 print("Esc key pressed...")
