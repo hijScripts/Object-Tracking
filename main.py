@@ -35,11 +35,11 @@ class ObjectDetectionPipeline:
         """
 
         # Getting num found by yolo and matching to associated name
-        classNum = int(box.cls[0])
-        className = self.objectModel.names[classNum]
+        classNum: int = int(box.cls[0])
+        className: str = self.objectModel.names[classNum]
 
         # Getting confidence value and converting to %
-        confidence = float(box.conf[0])
+        confidence: float = float(box.conf[0])
         confidence *= 100
 
         return className, confidence
@@ -116,10 +116,10 @@ class ObjectDetectionPipeline:
                 x1, y1, x2, y2 = self.getCoords(box)
 
                 # Scale the coordinates back to the original frame size
-                x1 = x1 * scaleX
-                y1 = y1 * scaleY
-                x2 = x2 * scaleX
-                y2 = y2 * scaleY
+                x1 = int(x1 * scaleX)
+                y1 = int(y1 * scaleY)
+                x2 = int(x2 * scaleX)
+                y2 = int(y2 * scaleY)
 
                 # Outlining the object
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
