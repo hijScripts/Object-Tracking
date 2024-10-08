@@ -4,5 +4,4 @@
 # Base ------------------------------------------------------------------------
 cvzone
 opencv-python
-face-recognition
 ultralytics
