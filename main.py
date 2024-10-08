@@ -6,7 +6,7 @@ import os
 from ultralytics import YOLO
 
 # Weights for detecting objects
-objectModel = YOLO("yolov10n.pt")
+objectModel = YOLO("yolo11n.pt")
 faceModel = YOLO("yolov8n-face.pt") # need to update to v10 trained w faces
 
 # Dict of known faces to compare against
