@@ -36,7 +36,7 @@ class ObjectDetectionPipeline:
 
         # Getting num found by yolo and matching to associated name
         classNum = int(box.cls[0])
-        className = objectModel.names[classNum]
+        className = self.objectModel.names[classNum]
 
         # Getting confidence value and converting to %
         confidence = float(box.conf[0])
