@@ -134,7 +134,7 @@ class ObjectDetectionPipeline:
     def run(self):
 
         # Start the frame capture thread
-        captureThread = threading.Thread(target=self.captureFrame())
+        captureThread = threading.Thread(target=self.captureFrame)
         captureThread.start()
 
         while not self.stopThread:
