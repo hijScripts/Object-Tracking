@@ -52,6 +52,9 @@ def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
 
     return x1, y1, x2, y2
 
+def cleanup(webcam: cv2.VideoCapture) -> None:
+    webcam.release()
+    cv2.DestroyAllWindows()
 
 def main():
 
