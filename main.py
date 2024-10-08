@@ -67,6 +67,16 @@ class ObjectDetectionPipeline:
 
         return x1, y1, x2, y2
 
+    def captureFrame(self) -> np.ndarray:
+        frameCaptured, frame = self.webcam.read()
+
+        if not frameCaptured:
+            print("Failed to capture frame...")
+            self.cleanup(self.webcam)
+            self.stopThread = True
+        
+        return frame
+
     def processFrame(self) -> None:
         """
         Analyses the frame for objects.
@@ -80,7 +90,7 @@ class ObjectDetectionPipeline:
         :raises ExceptionType: condition
         """
         # Analysing frame for objects then iterating over them
-        objects = objectModel(self.frame)
+        objects = objectModel(self.captureFrame())
         for object in objects:
 
             boxes = object.boxes
