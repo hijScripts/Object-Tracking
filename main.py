@@ -101,19 +101,29 @@ def cleanup(webcam: cv2.VideoCapture) -> None:
 def main():
 
     # Capturing live webcam video
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     while True:
 
         # Getting a frame from footage
-        bool, image = cap.read()
+        bool, frame = cap.read()
 
         if not bool:
             print("Failed to capture frame... Closing now.")
+            cleanup(cap)
             break
+        
+        # Analysing frame
+        analyseFrame(frame)
 
-        cv2.imshow("frame", image)
+        # Displaying the frame and exiting loop if 'Esc' is pressed.
+        cv2.imshow("frame", frame)
         keyPress = cv2.waitKey(1)
+
+        if keyPress == 27:
+            print("Esc key pressed... Closing now.")
+            cleanup(cap)
+            break
 
     cap.release()
     cv2.destroyAllWindows()
