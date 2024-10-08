@@ -48,7 +48,7 @@ def getCoords(object: Boxes) -> Tuple[int, int, int, int]:
     
     :raises ExceptionType: condition
     """
-    x1, y1, x2, y2 = map(object.xyxy[0], int)
+    x1, y1, x2, y2 = map(int, object.xyxy[0])
 
     return x1, y1, x2, y2
 
