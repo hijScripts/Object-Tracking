@@ -6,7 +6,7 @@ import threading
 from ultralytics import YOLO
 
 class ObjectDetectionPipeline:
-    def __init__(self, modelPath: str="yolo11n.pt", webcamNum: int=0, confidenceThreshold: float=0.5, frameSkip: int=2) -> None:
+    def __init__(self, modelPath: str="yolo11n.pt", webcamNum: int=0, confidenceThreshold: float=50, frameSkip: int=2) -> None:
         self.objectModel = YOLO(modelPath)
         self.webcam: cv2.VideoCapture = cv2.VideoCapture(webcamNum)
         self.confidenceThreshold: float = confidenceThreshold
