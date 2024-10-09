@@ -75,7 +75,7 @@ class ObjectDetectionPipeline:
 
             if not frameCaptured:
                 print("Failed to capture frame...")
-                self.cleanup(self.webcam)
+                self.cleanup()
                 self.stopThread = True
 
     def processFrame(self, frame) -> np.ndarray:
@@ -149,7 +149,7 @@ class ObjectDetectionPipeline:
         :raises ExceptionType: condition
         """
         self.webcam.release()
-        cv2.DestroyAllWindows()
+        cv2.destroyAllWindows()
 
     def run(self) -> None:
         """
@@ -171,7 +171,7 @@ class ObjectDetectionPipeline:
             if keyPress == 27:
                 print("Esc key pressed...")
                 self.stopThread = True
-                self.cleanup(self.webcam)
+                self.cleanup()
         
         # Waits for captureThread to finish executing then joins back onto main thread.
         captureThread.join()
