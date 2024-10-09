@@ -61,7 +61,7 @@ class ObjectDetectionPipeline:
 
         return x1, y1, x2, y2
 
-    def captureFrame(self):
+    def captureFrame(self) -> None:
         """
         Constantly captures new frames.
         
@@ -151,7 +151,7 @@ class ObjectDetectionPipeline:
         self.webcam.release()
         cv2.DestroyAllWindows()
 
-    def run(self):
+    def run(self) -> None:
         """
         Runs the Object Detection Pipeline
         """
