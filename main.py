@@ -3,8 +3,6 @@ import cv2
 import numpy as np
 import threading
 
-from typing import Tuple
-
 from ultralytics import YOLO
 
 class ObjectDetectionPipeline:
@@ -17,7 +15,7 @@ class ObjectDetectionPipeline:
         self.stopThread: bool = False
         self.frame: np.ndarray = None
 
-    def getParams(self, box) -> Tuple[str, float]:
+    def getParams(self, box) -> tuple:
         """
         Gets the name and confidence value of an object.
         
@@ -28,7 +26,7 @@ class ObjectDetectionPipeline:
         :type object: Boxes
         
         :return: Returns the className and confidence value of the object
-        :rtype: Tuple[str, float]
+        :rtype: tuple
         
         :raises ExceptionType: condition
         """
@@ -43,7 +41,7 @@ class ObjectDetectionPipeline:
 
         return className, confidence
 
-    def getCoords(self, box) -> Tuple[int, int, int, int]:
+    def getCoords(self, box) -> tuple:
         """
         Gets the top-left and bottom-right coordinates of an
         object.
@@ -55,7 +53,7 @@ class ObjectDetectionPipeline:
         :type object: Boxes
         
         :return: Returns the top-left and bottom-right coords of object
-        :rtype: Tuple[int, int, int, int]
+        :rtype: tuple
         
         :raises ExceptionType: condition
         """
