@@ -112,6 +112,13 @@ class ObjectDetectionPipeline:
 
             for box in boxes:
 
+                # Getting name & confidence of object
+                name, confidence = self.getParams(box)
+
+                # Skip if confidence is below threshold
+                if confidence < self.confidenceThreshold:
+                   continue
+
                 # Getting the top-left and bottom-right coords
                 x1, y1, x2, y2 = self.getCoords(box)
 
@@ -124,16 +131,9 @@ class ObjectDetectionPipeline:
                 # Outlining the object
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 255), 3)
 
-                # Getting name & confidence of object
-                name, confidence = self.getParams(box)
-
-                # Skip if confidence is below threshold
-                if confidence < self.confidenceThreshold:
-                   continue
-
                 # Displaying captured values onto frame
                 cvzone.putTextRect(frame, f"{name} | {confidence:.2f}% confident.", [x1 + 8, y1 - 12], scale=2)
-        
+
         return frame
 
     def cleanup(self) -> None:
@@ -177,5 +177,5 @@ class ObjectDetectionPipeline:
         captureThread.join()
         
 if __name__ == "__main__":
-    pipeline = ObjectDetectionPipeline()
+    pipeline = ObjectDetectionPipeline(webcamNum=1)
     pipeline.run()
