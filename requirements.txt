@@ -5,4 +5,3 @@
 cvzone
 opencv-python
 ultralytics
-numpy
